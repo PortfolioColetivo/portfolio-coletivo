@@ -32,10 +32,13 @@ portfolio-coletivo/<br>|<br>
 ---
 
 ## 🔧 Como contribuir
-1. Faça um fork ou clone do repositório:
+1. Faça um fork ou clone do repositório, um comando de cada vez:
    ```bash
    git clone https://github.com/PortfolioColetivo/portfolio-coletivo.git
+
    cd portfolio-coletivo
+
+   git checkout dev
 
 2. Crie uma branch para sua contribuição:
    ```bash
@@ -56,10 +59,16 @@ portfolio-coletivo/<br>|<br>
    ```
 
 5. Abra um Pull Request:
-   - Volte ao repositório original
-   - Clique em "New Pull Request"
-   - Escolha sua branch e a branch de destino
-   - Descreva suas mudanças
+📌 Passo 5 — Abrindo um Pull Request
+
+Após fazer o git push da sua branch, siga estes passos no GitHub:
+
+Acesse o repositório e clique no botão verde "Compare & pull request" que deve aparecer no topo. (Se não aparecer, vá na aba "Pull requests" e clique em "New pull request").
+Configure as branches:
+Base: dev (para onde o código vai)
+Compare: feature/sua-feature (a branch que você enviou)
+Preencha os detalhes: Adicione um título direto (ex: feat: cria header) e uma breve descrição do que foi feito.
+Finalize: Clique em "Create pull request".
 
 6. Revisão e aprovação:
    - Outros membros revisarão
