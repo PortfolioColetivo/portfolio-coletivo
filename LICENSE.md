@@ -8,7 +8,7 @@ Este documento explica como colaborar com o portfólio coletivo de forma organiz
 
 1. **Clone o repositório**
    ```bash
-   git clone https://github.com/organizacao/portfolio-coletivo.git
+   git clone https://github.com/PortfolioColetivo/portfolio-coletivo.git
 2. **Crie uma branch exclusiva (exemplo: feature/nome-da-feature)**
    ```bash
    git checkout -b feature/nome-da-feature
@@ -80,9 +80,13 @@ feat(auth): adiciona autenticação com Google
 ```
 portfolio-coletivo/
 ├── frontend/            # Código da interface
+
 ├── backend/             # Código do servidor
+
 ├── projetos/            # Projetos individuais
+
 ├── docs/                # Documentação
+
 └── assets/              # Arquivos estáticos
 ```
 ---

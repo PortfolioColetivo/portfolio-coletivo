@@ -35,7 +35,7 @@ portfolio-coletivo/
 ## 🔧 Como contribuir
 1. Faça um fork ou clone do repositório:
    ```bash
-   git clone https://github.com/organizacao/portfolio-coletivo.git
+   git clone https://github.com/PortfolioColetivo/portfolio-coletivo.git
    cd portfolio-coletivo
 
 2. Crie uma branch para sua contribuição:
@@ -80,15 +80,14 @@ Issues serão usadas para organizar tarefas e bugs.
 ---
 
 ## 📝 Licença
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE.md para mais detalhes.
 
 ---
 
 ## 👋 Contato
-Para dúvidas ou sugestões, entre em contato:
+Para dúvidas ou sugestões, entre em contato Com o Admin do grupo:
 
-- Email: [EMAIL_ADDRESS]
-- GitHub: @username
+
 
 ---
 
