@@ -1,0 +1,11 @@
+#como inserir imagens no portfólio
+
+# Insira aqui todas as imagens que quiser adicionar ao portfólio
+# As imagens devem estar em formato .png, .jpg ou .jpeg
+# As imagens devem estar em tamanho adequado para o portfólio
+# As imagens devem estar em tamanho adequado para o portfólio, 
+
+Boa prática é comprimir as imagens antes de adicionar ao portfólio
+
+#compressão das imagens
+pngquant -f -v --speed=1 --quality=60-80 nome_da_imagem.png

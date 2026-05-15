@@ -1,0 +1,16 @@
+#aqui vai ser inserido os projetos
+#Boa prática: cada projeto deve ter sua própria pasta
+
+#Exemplo de estrutura de pastas:
+
+portfolio/
+├── projetos/
+│   ├── projeto-seu-nome/
+│   │   ├── index.html
+│   │   ├── style.css
+│   │   └── script.js
+│   └── projeto-seu-nome/
+│       ├── index.html
+│       ├── style.css
+│       └── script.js
+└── README.md
