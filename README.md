@@ -22,8 +22,7 @@ Criar um portfólio coletivo que mostre:
 ---
 
 ## 📂 Estrutura do Repositório
-portfolio-coletivo/
-│
+portfolio-coletivo/<br>|<br>
 ├── frontend/        # Projetos de interface <br/>
 ├── backend/         # Projetos de servidor/API<br/>
 ├── projetos/        # Projetos individuais dos membros<br/>
