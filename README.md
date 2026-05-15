@@ -80,7 +80,7 @@ Issues serão usadas para organizar tarefas e bugs.
 ---
 
 ## 📝 Licença
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE.md para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [License](LICENSE.md) para mais detalhes.
 
 ---
 
