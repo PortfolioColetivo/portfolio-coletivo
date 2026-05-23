@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Painel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Editar Portfólio</h1>
+        <a href="index.html">← Voltar</a>
+        <button id="logout-btn">Sair</button>
+    </header>
+
+    <main class="container">
+        <form id="portfolio-form">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" required>
+
+            <label for="cargo">Cargo / Título</label>
+            <input type="text" id="cargo" placeholder="Ex: Designer UI/UX">
+
+            <label for="bio">Bio curta</label>
+            <textarea id="bio" rows="3"></textarea>
+
+            <label for="foto">Link da foto</label>
+            <input type="url" id="foto" placeholder="https://...">
+
+            <label for="linkedin">LinkedIn</label>
+            <input type="url" id="linkedin">
+
+            <label for="github">GitHub</label>
+            <input type="url" id="github">
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+        <p id="status-msg"></p>
+    </main>
+
+    <script type="module" src="dashboard.js"></script>
+</body>
+
+</html>
