@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Portfólio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">← Voltar</a>
+  </header>
+
+  <main id="user-portfolio" class="container">
+    <div class="card" id="profile-card">
+      <img id="pf-foto" src="avatar.png" alt="Foto" />
+      <h2 id="pf-nome"></h2>
+      <h4 id="pf-cargo"></h4>
+      <p id="pf-bio"></p>
+
+      <!-- FIX: separador em span próprio; u.js o esconde se ambos os links sumirem -->
+      <p class="links">
+        <a id="pf-linkedin" href="#" target="_blank">LinkedIn</a>
+        <span id="pf-sep"> • </span>
+        <a id="pf-github" href="#" target="_blank">GitHub</a>
+      </p>
+
+      <div id="pf-project"></div>
+    </div>
+  </main>
+
+  <script type="module" src="../backend/u.js"></script>
+</body>
+</html>

@@ -10,17 +10,19 @@
 
 <body>
     <header>
-        <h1>Nossos Portfólios </h1>
-        <p>Confira nossos portfólios de projetos anteriores e veja como podemos ajudar a transformar suas ideias em realidade.<br> Explore nossos trabalhos e inspire-se para criar algo incrível conosco!</p>
+        <h1>Nossos Portfólios</h1>
+        <p>Confira nossos portfólios de projetos anteriores e veja como podemos ajudar a transformar suas ideias em
+            realidade.<br>Explore nossos trabalhos e inspire-se para criar algo incrível conosco!</p>
         <div>
-        <a href="login.html" id="login-btn">Entrar</a>
-        <a href="Edit_Profile.html" id="Edit-Cad-btn" >Meu Perfil</a>
-        <button id="logout-btn">Sair</button>
+            <!-- FIX: dash-btn e logout-btn iniciam ocultos; app.js os controla via onAuthStateChanged -->
+            <a href="login.html" id="login-btn">Entrar</a>
+            <a class="hiddem" href="Edit_Profile.html" id="dash-btn">Meu Perfil</a>
+            <button class="hiddem" id="logout-btn">Sair</button>
         </div>
     </header>
 
     <main id="grid-projects"></main>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="../backend/app.js"></script>
 </body>
 
 </html>
