@@ -125,7 +125,10 @@ projectModal.addEventListener('click', (e) => {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!usuarioAtual) return;
+  if (!usuarioAtual) {
+    statusMsg.textContent = 'Aguardando autenticação. Tente novamente em instantes.';
+    return;
+  }
 
   if (!slugValido) {
     statusMsg.textContent = 'Corrija o endereço público antes de salvar.';
@@ -204,30 +207,40 @@ function setupAuthStateChanged() {
 
 // --- Carrega dados do Firestore no form ---
 async function carregarDados(uid) {
-  const docRef  = doc(db, 'users', uid);
-  const docSnap = await getDoc(docRef);
+  try {
+    const docRef  = doc(db, 'users', uid);
+    const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists() && docSnap.data().portfolio) {
-    const p = docSnap.data().portfolio;
-    document.getElementById('nome').value     = p.nome     || '';
-    document.getElementById('cargo').value    = p.cargo    || '';
-    document.getElementById('bio').value      = p.bio      || '';
-    document.getElementById('foto').value     = p.foto     || '';
-    document.getElementById('linkedin').value = p.linkedin || '';
-    document.getElementById('github').value   = p.github   || '';
-    portfolioUrlInput.value                   = p.portfolio_url || '';
+    if (docSnap.exists() && docSnap.data().portfolio) {
+      const p = docSnap.data().portfolio;
+      document.getElementById('nome').value     = p.nome     || '';
+      document.getElementById('cargo').value    = p.cargo    || '';
+      document.getElementById('bio').value      = p.bio      || '';
+      document.getElementById('foto').value     = p.foto     || '';
+      document.getElementById('linkedin').value = p.linkedin || '';
+      document.getElementById('github').value   = p.github   || '';
+      portfolioUrlInput.value                   = p.portfolio_url || '';
 
-    // Carrega o slug e exibe o link público
-    const slugAtual = p.slug || '';
-    slugInput.value = slugAtual;
-    atualizarPreviewSlug(slugAtual);
+      // Carrega o slug e exibe o link público
+      const slugAtual = p.slug || '';
+      slugInput.value = slugAtual;
+      atualizarPreviewSlug(slugAtual);
 
-    // Auto-detect: verifica se existe pasta local ../projetos/<slug>/index.html
-    if (slugAtual) {
-      detectarPastaLocal(slugAtual);
+      if (slugAtual) {
+        detectarPastaLocal(slugAtual);
+      }
+
+      projetosAtual = p.projetos || [];
+    } else {
+      // Coleção/documento não existe ainda — perfil novo
+      statusMsg.textContent = 'Perfil novo detectado. Preencha seus dados e salve para criar o perfil.';
+      setTimeout(() => { statusMsg.textContent = ''; }, 4000);
     }
-
-    projetosAtual = p.projetos || [];
+  } catch (err) {
+    console.error('Erro ao carregar dados:', err);
+    statusMsg.textContent = 'Erro ao carregar dados: ' + (err?.message || 'Tente recarregar a página.');
+  } finally {
+    // Garante que a UI é atualizada independente de o documento existir ou não
     renderizarProjetos();
     atualizarVisibilidadeProjetos();
   }
@@ -237,7 +250,7 @@ async function detectarPastaLocal(slug) {
   const statusEl = document.getElementById('slug-folder-status');
   if (!statusEl || !slug) return;
   try {
-    const localPath = `../projetos/${slug}/index.html`;
+    const localPath = `./projetos/${slug}/index.html`;
     const res = await fetch(localPath, { method: 'HEAD' });
     if (res.ok) {
       statusEl.style.display  = 'block';

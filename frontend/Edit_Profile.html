@@ -39,18 +39,16 @@
 
       <!-- SLUG / ID público -->
       <label for="slug">Seu endereço público</label>
-      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
-        <span id="slug-prefix" style="color:#666;white-space:nowrap">u.html?slug=</span>
+      <div class="slug-row">
+        <span id="slug-prefix">u.html?slug=</span>
         <input type="text" id="slug" placeholder="lucas-silva"
-               style="flex:1;min-width:160px"
                pattern="[a-z0-9\-]+"
                title="Use apenas letras minúsculas, números e hífens">
       </div>
       <small>Esse será o link público do seu portfólio. Somente letras minúsculas, números e hífens.</small>
-      <div id="slug-preview" style="display:none;margin-top:.4rem;padding:.5rem .75rem;background:#e8f5e9;border-radius:4px;font-size:.85rem"></div>
-      <div id="slug-erro" style="display:none;color:#dc3545;font-size:.85rem;margin-top:.3rem"></div>
-      <div id="slug-folder-status"
-           style="display:none;margin-top:.5rem;padding:.6rem .9rem;border-radius:4px;font-size:.85rem;line-height:1.4"></div>
+      <div id="slug-preview"></div>
+      <div id="slug-erro"></div>
+      <div id="slug-folder-status"></div>
 
       <hr>
       <h3>Como deseja exibir seu portfólio?</h3>
@@ -73,31 +71,31 @@
         <button type="button" id="add-project-btn">+ Adicionar Projeto</button>
       </div>
 
-      <!-- Modal para Adicionar/Editar Projeto -->
-      <div class="project-modal" id="project-modald">
-        <div id="cx-1">
-          <h3>Adicionar/Editar Projeto</h3>
-          <form id="project-form">
-            <label for="proj-titulo">Título do Projeto *</label>
-            <input type="text" id="proj-titulo" required>
-
-            <label for="proj-descricao">Descrição *</label>
-            <textarea id="proj-descricao" rows="3" required></textarea>
-
-            <label for="proj-link">Link do Repositório *</label>
-            <input type="url" id="proj-link" required>
-
-            <div id="cx-2">
-              <button id="btn-1" type="submit">Salvar Projeto</button>
-              <button id="cancel-project-btn" type="button">Cancelar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
       <hr>
       <button type="submit">Salvar Alterações</button>
     </form>
+
+    <!-- Modal FORA do portfolio-form (forms aninhados são inválidos em HTML) -->
+    <div id="project-modal">
+      <div id="cx-1">
+        <h3>Adicionar/Editar Projeto</h3>
+        <form id="project-form">
+          <label for="proj-titulo">Título do Projeto *</label>
+          <input type="text" id="proj-titulo" required>
+
+          <label for="proj-descricao">Descrição *</label>
+          <textarea id="proj-descricao" rows="3" required></textarea>
+
+          <label for="proj-link">Link do Repositório *</label>
+          <input type="url" id="proj-link" required>
+
+          <div id="cx-2">
+            <button id="btn-1" type="submit">Salvar Projeto</button>
+            <button id="cancel-project-btn" type="button">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <p id="status-msg"></p>
   </main>
 

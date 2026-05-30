@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólios</title>
-    <link rel="stylesheet" href="../Portfolio-Coletivo/frontend/style.css">
+    <link rel="stylesheet" href="./frontend/style.css">
 </head>
 
 <body>
@@ -15,14 +15,17 @@
             realidade.<br>Explore nossos trabalhos e inspire-se para criar algo incrível conosco!</p>
         <div>
             <!-- FIX: dash-btn e logout-btn iniciam ocultos; app.js os controla via onAuthStateChanged -->
-            <a href="../Portfolio-Coletivo/frontend/login.html" id="login-btn">Entrar</a>
-            <a class="hiddem" href="../Portfolio-Coletivo/frontend/Edit_Profile.html" id="dash-btn">Meu Perfil</a>
+            <a href="./frontend/login.html" id="login-btn">Entrar</a>
+            <a class="hiddem" href="./frontend/Edit_Profile.html" id="dash-btn">Meu Perfil</a>
             <button class="hiddem" id="logout-btn">Sair</button>
         </div>
-    </header>
 
+    </header>
+    <nav>
+        <input type='search' placeholder="PostgresSQL, ReactJS, NodeJS..." id="input-stack">
+    </nav>
     <main id="grid-projects"></main>
-    <script type="module" src="../backend/app.js"></script>
+    <script type="module" src="./backend/app.js"></script>
 </body>
 
 </html>

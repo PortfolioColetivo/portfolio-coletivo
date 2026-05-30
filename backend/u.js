@@ -46,7 +46,13 @@ import {
     return;
   }
 
-  document.getElementById('pf-foto').src       = data.foto   || 'avatar.png';
+  const fotoEl = document.getElementById('pf-foto');
+  if (data.foto) {
+    fotoEl.src = data.foto;
+    fotoEl.onerror = () => { fotoEl.style.display = 'none'; };
+  } else {
+    fotoEl.style.display = 'none';
+  }
   document.getElementById('pf-nome').textContent  = data.nome  || '';
   document.getElementById('pf-cargo').textContent = data.cargo || '';
   document.getElementById('pf-bio').textContent   = data.bio   || '';
@@ -87,6 +93,7 @@ import {
   if (slugAtivo) {
     const localPath = `../projetos/${slugAtivo}/index.html`;
     try {
+      // 404 aqui é esperado quando a pasta não existe; browser loga mesmo com try/catch
       const check = await fetch(localPath, { method: 'HEAD' });
       if (check.ok) {
         const section = document.createElement('div');
