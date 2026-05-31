@@ -11,7 +11,7 @@
 <body>
   <header>
     <h1>Edição do Portfólio</h1>
-    <a href="index.html">← Voltar</a>
+    <a href="../index.html">← Voltar</a>
     <button id="logout-btn" class="hiddem">Sair</button>
   </header>
 
@@ -35,13 +35,17 @@
       <label for="github">GitHub</label>
       <input type="url" id="github">
 
+      <label for="stack">Habilidades / Stack</label>
+      <input type="text" id="stack" placeholder="Ex: JavaScript, Java, Docker, ReactJS, PostgreSQL">
+      <small>Separe com vírgulas. Essas palavras aparecem na busca por recrutadores.</small>
+
       <hr>
 
       <!-- SLUG / ID público -->
       <label for="slug">Seu endereço público</label>
       <div class="slug-row">
-        <span id="slug-prefix">u.html?slug=</span>
-        <input type="text" id="slug" placeholder="lucas-silva"
+        <span id="slug-prefix">frontend/u.html?slug=</span>
+        <input type="text" id="slug" placeholder="levit-silva"
                pattern="[a-z0-9\-]+"
                title="Use apenas letras minúsculas, números e hífens">
       </div>
@@ -60,6 +64,11 @@
       <small>Se preenchido, sua página será embutida no perfil público.</small>
       <!-- Feedback visual quando URL está ativa -->
       <div id="portfolio-url-preview"></div>
+
+      <label for="descricao-portfolio">Descreva seu portfólio e tecnologias usadas</label>
+      <textarea id="descricao-portfolio" rows="5" maxlength="1000"
+        placeholder="Ex: Desenvolvo aplicações web com ReactJS e NodeJS. Tenho experiência com Docker, PostgreSQL, AWS e TypeScript..."></textarea>
+      <small id="descricao-contador">0 / 1000 caracteres — palavras extraídas automaticamente para a busca.</small>
 
       <div class="opcao-ou">OU</div>
 

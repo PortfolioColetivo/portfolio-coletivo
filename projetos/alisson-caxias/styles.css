@@ -176,3 +176,11 @@ footer {
   border-top: 1px solid #21262d;
   margin-top: 3rem;
 }
+
+.footer-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: inherit;
+}

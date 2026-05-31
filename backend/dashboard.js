@@ -24,14 +24,66 @@ const projetosHint      = document.getElementById('projetos-hint');
 const projectModal      = document.getElementById('project-modal');
 const projectForm       = document.getElementById('project-form');
 const cancelProjectBtn  = document.getElementById('cancel-project-btn');
-const slugInput         = document.getElementById('slug');
-const slugPreview       = document.getElementById('slug-preview');
-const slugErro          = document.getElementById('slug-erro');
+const slugInput             = document.getElementById('slug');
+const slugPreview           = document.getElementById('slug-preview');
+const slugErro              = document.getElementById('slug-erro');
+const descricaoInput        = document.getElementById('descricao-portfolio');
+const descricaoContador     = document.getElementById('descricao-contador');
+
+descricaoInput?.addEventListener('input', () => {
+  const len = descricaoInput.value.length;
+  descricaoContador.textContent = `${len} / 1000 caracteres — palavras extraídas automaticamente para a busca.`;
+});
 
 let usuarioAtual      = null;
 let projetosAtual     = [];
 let editingProjectIdx = null;
 let slugValido        = true; // controla se o form pode ser submetido
+
+// --- Extração de palavras-chave do portfolio local ---
+const STOPWORDS = new Set([
+  // Português
+  'de','da','do','das','dos','a','o','e','em','um','uma','com','para','por','que',
+  'se','não','na','no','as','os','ao','foi','são','ter','ele','ela','seu','sua',
+  'mas','mais','ou','como','me','nos','ser','há','já','isso','esta','este','essa',
+  'esse','aqui','ali','bem','muito','ainda','depois','também','sobre','entre',
+  'quando','onde','quem','seu','meu','teu','nosso','isso','aquilo','cada','todo',
+  // Inglês
+  'the','a','an','and','or','but','in','on','at','to','for','of','is','are',
+  'was','were','be','been','have','has','had','do','does','did','will','would',
+  'can','could','should','may','might','it','its','this','that','with','from',
+  'by','as','if','we','you','he','she','they','my','your','our','their','all',
+  'not','no','so','up','out','about','into','than','then','when','where','who',
+  'get','use','new','one','two','also','just','make','like','see','time','way'
+]);
+
+function tokenizar(texto) {
+  return texto
+    .toLowerCase()
+    .split(/[\s,.;\-_/\\|:!?@#$%^&*()\[\]{}<>"'`~\n\r\t+=]+/)
+    .filter(p => p.length >= 3 && !STOPWORDS.has(p) && !/^\d+$/.test(p));
+}
+
+async function extrairPalavrasChave(slug) {
+  if (!slug) return [];
+  try {
+    const res = await fetch(`../projetos/${slug}/index.html`);
+    if (!res.ok) return [];
+    const html = await res.text();
+    const semTags = html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ');
+    return tokenizar(semTags);
+  } catch {
+    return [];
+  }
+}
+
+function extrairDoTexto(texto) {
+  if (!texto || !texto.trim()) return [];
+  return tokenizar(texto);
+}
 
 // --- Helpers de slug ---
 function sanitizarSlug(valor) {
@@ -140,6 +192,13 @@ form.addEventListener('submit', async (e) => {
 
   const slugFinal = sanitizarSlug(slugInput.value);
 
+  const stackRaw = document.getElementById('stack')?.value || '';
+  const stack = stackRaw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+
+  const deHtml  = await extrairPalavrasChave(slugFinal);
+  const deTexto = extrairDoTexto(descricaoInput?.value || '');
+  const palavrasChave = [...new Set([...deHtml, ...deTexto])];
+
   const dadosPortfolio = {
     nome:          document.getElementById('nome').value,
     cargo:         document.getElementById('cargo').value,
@@ -149,7 +208,10 @@ form.addEventListener('submit', async (e) => {
     github:        document.getElementById('github').value,
     portfolio_url: portfolioUrlInput.value.trim(),
     projetos:      projetosAtual,
-    email:         usuarioAtual.email,
+    stack:              stack,
+    palavras_chave:     palavrasChave,
+    descricao_portfolio: (descricaoInput?.value || '').trim().slice(0, 1000),
+    email:              usuarioAtual.email,
     slug:          slugFinal
   };
 
@@ -161,7 +223,7 @@ form.addEventListener('submit', async (e) => {
     statusMsg.textContent = 'Alterações salvas com sucesso!';
     setTimeout(() => {
       statusMsg.textContent = '';
-      window.location.href = 'index.html';
+      window.location.href = '../index.html';
     }, 1500);
   } catch (error) {
     console.error('Erro ao salvar:', error);
@@ -170,7 +232,7 @@ form.addEventListener('submit', async (e) => {
 });
 
 logoutBtn.addEventListener('click', () => {
-  signOut(auth).then(() => (window.location.href = 'index.html'));
+  signOut(auth).then(() => (window.location.href = '../index.html'));
 });
 
 // --- Inicializa Firebase e arranca a autenticação ---
@@ -221,6 +283,14 @@ async function carregarDados(uid) {
       document.getElementById('github').value   = p.github   || '';
       portfolioUrlInput.value                   = p.portfolio_url || '';
 
+      const stackInput = document.getElementById('stack');
+      if (stackInput) stackInput.value = (p.stack || []).join(', ');
+
+      if (descricaoInput) {
+        descricaoInput.value = p.descricao_portfolio || '';
+        descricaoContador.textContent = `${descricaoInput.value.length} / 1000 caracteres — palavras extraídas automaticamente para a busca.`;
+      }
+
       // Carrega o slug e exibe o link público
       const slugAtual = p.slug || '';
       slugInput.value = slugAtual;
@@ -250,7 +320,7 @@ async function detectarPastaLocal(slug) {
   const statusEl = document.getElementById('slug-folder-status');
   if (!statusEl || !slug) return;
   try {
-    const localPath = `./projetos/${slug}/index.html`;
+    const localPath = `../projetos/${slug}/index.html`;
     const res = await fetch(localPath, { method: 'HEAD' });
     if (res.ok) {
       statusEl.style.display  = 'block';

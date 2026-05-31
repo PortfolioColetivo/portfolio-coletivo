@@ -55,32 +55,89 @@ function setupAuthStateChanged() {
 }
 
 // 3. LISTAR TODOS OS PORTFÓLIOS NA HOME
+let todosPortfolios = [];
+
 async function carregarPortfolios() {
   const grid = document.getElementById('grid-projects');
   if (!grid) return;
 
   const querySnapshot = await getDocs(collection(db, "users"));
-  grid.innerHTML = '';
+  todosPortfolios = [];
 
   querySnapshot.forEach((doc) => {
     const data = doc.data().portfolio;
     if (!data) return;
+    todosPortfolios.push({ uid: doc.id, data });
+  });
 
-    // FIX: todos os campos vindos do Firestore são escapados antes de ir ao innerHTML
+  renderizarCards(todosPortfolios);
+
+  const searchInput = document.getElementById('input-stack');
+  if (searchInput) {
+    searchInput.addEventListener('input', filtrarPorStack);
+  }
+}
+
+function calcularScore(data, termos) {
+  if (!termos.length) return 0;
+  const stack    = (data.stack         || []).map(s => s.toLowerCase());
+  const keywords = (data.palavras_chave || []).map(k => k.toLowerCase());
+  const combined = [...new Set([...stack, ...keywords])];
+  return termos.filter(t => combined.some(k => k.includes(t))).length;
+}
+
+function filtrarPorStack() {
+  const valor = document.getElementById('input-stack').value.trim().toLowerCase();
+
+  if (!valor) {
+    renderizarCards(todosPortfolios);
+    return;
+  }
+
+  const termos = valor.split(',').map(t => t.trim()).filter(Boolean);
+
+  const rankeados = todosPortfolios
+    .map(p => ({ ...p, score: calcularScore(p.data, termos) }))
+    .filter(p => p.score > 0)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      // tiebreaker: quem tem slug aparece na frente
+      return (b.data.slug ? 1 : 0) - (a.data.slug ? 1 : 0);
+    })
+    .slice(0, 10);
+
+  renderizarCards(rankeados, termos);
+}
+
+function renderizarCards(lista, termos = []) {
+  const grid = document.getElementById('grid-projects');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  if (!lista.length) {
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#888">Nenhum perfil encontrado para essa busca.</p>';
+    return;
+  }
+
+  lista.forEach(({ uid, data, score }) => {
     const nome  = escapeHtml(data.nome);
     const cargo = escapeHtml(data.cargo);
     const foto  = escapeHtml(data.foto || 'avatar.png');
 
-    // Usa slug (ID público amigável) quando disponível; fallback para UID legado
     const profileLink = data.slug
-      ? `u.html?slug=${escapeHtml(data.slug)}`
-      : `u.html?id=${escapeHtml(doc.id)}`;
+      ? `frontend/u.html?slug=${escapeHtml(data.slug)}`
+      : `frontend/u.html?id=${escapeHtml(uid)}`;
+
+    const badgeHtml = (termos.length && score != null)
+      ? `<span class="match-badge">${score}/${termos.length} habilidades</span>`
+      : '';
 
     grid.innerHTML += `
       <div class="card">
         <img src="${foto}" alt="${nome}">
         <h3>${nome}</h3>
         <p>${cargo}</p>
+        ${badgeHtml}
         <a href="${profileLink}">Ver portfólio</a>
       </div>
     `;

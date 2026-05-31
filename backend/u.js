@@ -99,10 +99,6 @@ import {
         const section = document.createElement('div');
         section.style.cssText = 'margin-top:2rem';
 
-        const titulo = document.createElement('h3');
-        titulo.textContent = 'Portfólio';
-        section.appendChild(titulo);
-
         const iframe = document.createElement('iframe');
         iframe.src             = localPath;
         iframe.title           = `Portfólio de ${data.nome || slugAtivo}`;
@@ -122,10 +118,6 @@ import {
   if (data.portfolio_url) {
     const portSection = document.createElement('div');
     portSection.style.cssText = 'margin-top:2rem';
-
-    const portTitle = document.createElement('h3');
-    portTitle.textContent = 'Meu Portfólio';
-    portSection.appendChild(portTitle);
 
     const iframe = document.createElement('iframe');
     iframe.src    = data.portfolio_url;

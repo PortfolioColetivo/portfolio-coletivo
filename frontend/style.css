@@ -95,6 +95,18 @@ header button {
   object-fit: cover;
 }
 
+.match-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid #a5d6a7;
+}
+
 .card a {
   display: inline-block;
   margin-top: 1rem;
