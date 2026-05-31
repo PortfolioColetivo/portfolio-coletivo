@@ -144,7 +144,9 @@ async function validarUnicidadeSlug(slug) {
 }
 
 // --- Registra listeners UMA única vez ---
-portfolioUrlInput.addEventListener('input', atualizarVisibilidadeProjetos);
+document.querySelectorAll('input[name="exibicao"]').forEach(r => {
+  r.addEventListener('change', atualizarOpcaoExibicao);
+});
 
 addProjectBtn.addEventListener('click', () => {
   projetosAtual.push({ titulo: '', descricao: '', link: '' });
@@ -199,6 +201,8 @@ form.addEventListener('submit', async (e) => {
   const deTexto = extrairDoTexto(descricaoInput?.value || '');
   const palavrasChave = [...new Set([...deHtml, ...deTexto])];
 
+  const modoExibicao = document.querySelector('input[name="exibicao"]:checked')?.value || 'slug';
+
   const dadosPortfolio = {
     nome:          document.getElementById('nome').value,
     cargo:         document.getElementById('cargo').value,
@@ -206,8 +210,9 @@ form.addEventListener('submit', async (e) => {
     foto:          document.getElementById('foto').value,
     linkedin:      document.getElementById('linkedin').value,
     github:        document.getElementById('github').value,
-    portfolio_url: portfolioUrlInput.value.trim(),
-    projetos:      projetosAtual,
+    portfolio_url: modoExibicao === 'url' ? portfolioUrlInput.value.trim() : '',
+    projetos:      modoExibicao === 'projetos' ? projetosAtual : [],
+    modo_exibicao:      modoExibicao,
     stack:              stack,
     palavras_chave:     palavrasChave,
     descricao_portfolio: (descricaoInput?.value || '').trim().slice(0, 1000),
@@ -224,7 +229,7 @@ form.addEventListener('submit', async (e) => {
     setTimeout(() => {
       statusMsg.textContent = '';
       window.location.href = '../index.html';
-    }, 1500);
+    }, 2000);
   } catch (error) {
     console.error('Erro ao salvar:', error);
     statusMsg.textContent = 'Erro ao salvar: ' + (error?.message || 'Tente novamente.');
@@ -301,6 +306,16 @@ async function carregarDados(uid) {
       }
 
       projetosAtual = p.projetos || [];
+
+      // Seleciona o radio correto conforme dado salvo
+      let modo = p.modo_exibicao || '';
+      if (!modo) {
+        if (p.portfolio_url) modo = 'url';
+        else if (projetosAtual.length) modo = 'projetos';
+        else modo = 'slug';
+      }
+      const radioEl = document.querySelector(`input[name="exibicao"][value="${modo}"]`);
+      if (radioEl) radioEl.checked = true;
     } else {
       // Coleção/documento não existe ainda — perfil novo
       statusMsg.textContent = 'Perfil novo detectado. Preencha seus dados e salve para criar o perfil.';
@@ -312,7 +327,7 @@ async function carregarDados(uid) {
   } finally {
     // Garante que a UI é atualizada independente de o documento existir ou não
     renderizarProjetos();
-    atualizarVisibilidadeProjetos();
+    atualizarOpcaoExibicao();
   }
 }
 
@@ -338,22 +353,17 @@ async function detectarPastaLocal(slug) {
   }
 }
 
-// --- Lógica mutuamente exclusiva: URL externa OU projetos individuais ---
-function atualizarVisibilidadeProjetos() {
-  const temUrl        = portfolioUrlInput.value.trim();
-  const secaoProjetos = document.getElementById("secao-projetos");
-  const previewUrl    = document.getElementById("portfolio-url-preview");
-
-  if (temUrl) {
-    secaoProjetos.style.display = "none";
-    if (previewUrl) {
-      previewUrl.style.display = "block";
-      previewUrl.textContent   = `u2713 Portfolio externo seru00e1 exibido: ${temUrl}`;
-    }
-  } else {
-    secaoProjetos.style.display = "block";
-    if (previewUrl) previewUrl.style.display = "none";
-  }
+// --- Exibe apenas o conteúdo da opção selecionada via radio ---
+function atualizarOpcaoExibicao() {
+  const selecionado = document.querySelector('input[name="exibicao"]:checked')?.value || 'slug';
+  const mapa = {
+    slug:     'secao-slug-exibicao',
+    url:      'secao-url',
+    projetos: 'secao-projetos',
+  };
+  Object.entries(mapa).forEach(([chave, id]) => {
+    document.getElementById(id)?.classList.toggle('ativa', chave === selecionado);
+  });
 }
 
 function renderizarProjetos() {

@@ -40,44 +40,56 @@
       <small>Separe com vírgulas. Essas palavras aparecem na busca por recrutadores.</small>
 
       <hr>
-
-      <!-- SLUG / ID público -->
-      <label for="slug">Seu endereço público</label>
-      <div class="slug-row">
-        <span id="slug-prefix">frontend/u.html?slug=</span>
-        <input type="text" id="slug" placeholder="levit-silva"
-               pattern="[a-z0-9\-]+"
-               title="Use apenas letras minúsculas, números e hífens">
-      </div>
-      <small>Esse será o link público do seu portfólio. Somente letras minúsculas, números e hífens.</small>
-      <div id="slug-preview"></div>
-      <div id="slug-erro"></div>
-      <div id="slug-folder-status"></div>
-
-      <hr>
       <h3>Como deseja exibir seu portfólio?</h3>
 
-      <!-- OPÇÃO 1: Portfolio externo -->
-      <span class="opcao-label">Opção 1 — Portfolio externo (URL)</span>
-      <label for="portfolio-url">Cole o link do seu portfolio</label>
-      <input type="url" id="portfolio-url" placeholder="https://seu-portfolio.com">
-      <small>Se preenchido, sua página será embutida no perfil público.</small>
-      <!-- Feedback visual quando URL está ativa -->
-      <div id="portfolio-url-preview"></div>
+      <div id="opcoes-exibicao">
 
-      <label for="descricao-portfolio">Descreva seu portfólio e tecnologias usadas</label>
-      <textarea id="descricao-portfolio" rows="5" maxlength="1000"
-        placeholder="Ex: Desenvolvo aplicações web com ReactJS e NodeJS. Tenho experiência com Docker, PostgreSQL, AWS e TypeScript..."></textarea>
-      <small id="descricao-contador">0 / 1000 caracteres — palavras extraídas automaticamente para a busca.</small>
+        <!-- OPÇÃO 0: Pasta local -->
+        <label class="radio-opcao">
+          <input type="radio" name="exibicao" value="slug" id="exibicao-slug" checked>
+          <span class="opcao-label">Colaborador Pasta local (slug)</span>
+        </label>
+        <div id="secao-slug-exibicao" class="opcao-conteudo ativa">
+          <label for="slug">Seu endereço público</label>
+          <div class="slug-row">
+            <span id="slug-prefix">u.html?slug=</span>
+            <input type="text" id="slug" placeholder="levit-silva"
+                   pattern="[a-z0-9\-]+"
+                   title="Use apenas letras minúsculas, números e hífens">
+          </div>
+          <small>Esse será o link público do seu portfólio. Somente letras minúsculas, números e hífens.</small>
+          <div id="slug-erro"></div>
+          <div id="slug-preview"></div>
+          <div id="slug-folder-status"></div>
+        </div>
 
-      <div class="opcao-ou">OU</div>
+        <!-- OPÇÃO 1: Portfolio externo (URL) -->
+        <label class="radio-opcao">
+          <input type="radio" name="exibicao" value="url" id="exibicao-url">
+          <span class="opcao-label">Portfólio externo (URL)</span>
+        </label>
+        <div id="secao-url" class="opcao-conteudo">
+          <label for="portfolio-url">Cole o link do seu portfolio</label>
+          <input type="url" id="portfolio-url" placeholder="https://seu-portfolio.com">
+          <small>Se preenchido, sua página será embutida no perfil público.</small>
+          <div id="portfolio-url-preview"></div>
+          <label for="descricao-portfolio">Descreva seu portfólio e tecnologias usadas</label>
+          <textarea id="descricao-portfolio" rows="5" maxlength="1000"
+            placeholder="Ex: Desenvolvo aplicações web com ReactJS e NodeJS. Tenho experiência com Docker, PostgreSQL, AWS e TypeScript..."></textarea>
+          <small id="descricao-contador">0 / 1000 caracteres — palavras extraídas automaticamente para a busca.</small>
+        </div>
 
-      <!-- OPÇÃO 2: Projetos individuais — seção ocultada quando há URL -->
-      <div id="secao-projetos">
-        <span class="opcao-label">Opção 2 — Projetos individuais</span>
-        <small id="projetos-hint">Adicione cada projeto separadamente.</small>
-        <div id="projects-list"></div>
-        <button type="button" id="add-project-btn">+ Adicionar Projeto</button>
+        <!-- OPÇÃO 2: Projetos individuais -->
+        <label class="radio-opcao">
+          <input type="radio" name="exibicao" value="projetos" id="exibicao-projetos">
+          <span class="opcao-label">Projetos individuais (manualmente)</span>
+        </label>
+        <div id="secao-projetos" class="opcao-conteudo">
+          <small id="projetos-hint">Adicione cada projeto separadamente.</small>
+          <div id="projects-list"></div>
+          <button type="button" id="add-project-btn">+ Adicionar Projeto</button>
+        </div>
+
       </div>
 
       <hr>
