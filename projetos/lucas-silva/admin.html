@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Lucas Silva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a; --surface: #111; --surface2: #181818;
+      --accent: #00e5a0; --accent2: #00b37e;
+      --text: #f0f0f0; --muted: #888; --border: #222;
+      --danger: #ef4444;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+
+    /* ── Tela de login ── */
+    #tela-login {
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 1.5rem;
+    }
+    .login-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 380px;
+    }
+    .login-card h1 {
+      font-family: var(--font-display); font-size: 1.5rem;
+      font-weight: 800; margin-bottom: .25rem;
+    }
+    .login-card h1 em { font-style: normal; color: var(--accent); }
+    .login-card p { font-size: .85rem; color: var(--muted); margin-bottom: 2rem; }
+    .campo { margin-bottom: 1rem; }
+    .campo label { display: block; font-size: .75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: .4rem; }
+    .campo input {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: .7rem 1rem; color: var(--text);
+      font-family: var(--font-body); font-size: .9rem; transition: border-color .2s;
+    }
+    .campo input:focus { outline: none; border-color: var(--accent); }
+    .btn-login {
+      width: 100%; background: var(--accent); color: #000;
+      font-family: var(--font-display); font-weight: 700; font-size: .9rem;
+      padding: .8rem; border: none; border-radius: 8px; cursor: pointer;
+      margin-top: .5rem; transition: background .2s;
+    }
+    .btn-login:hover { background: #00ffc0; }
+    .erro-login {
+      font-size: .8rem; color: var(--danger); margin-top: .75rem;
+      text-align: center; min-height: 1.2rem;
+    }
+
+    /* ── Painel admin ── */
+    #tela-admin { display: none; }
+    .admin-header {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem; display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .admin-header h2 {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+    }
+    .admin-header h2 em { font-style: normal; color: var(--accent); }
+    .btn-sair {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      font-family: var(--font-body); font-size: .8rem; padding: .4rem .9rem;
+      border-radius: 6px; cursor: pointer; transition: all .2s;
+    }
+    .btn-sair:hover { border-color: var(--danger); color: var(--danger); }
+    .admin-body { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* ── Abas ── */
+    .abas { display: flex; gap: .5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .aba {
+      background: transparent; border: none; color: var(--muted);
+      font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+      letter-spacing: .08em; text-transform: uppercase; padding: .75rem 1rem;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      margin-bottom: -1px; transition: all .2s;
+    }
+    .aba.ativa { color: var(--accent); border-bottom-color: var(--accent); }
+    .aba-conteudo { display: none; }
+    .aba-conteudo.ativa { display: block; }
+
+    /* ── Formulários ── */
+    .form-grupo { margin-bottom: 1.25rem; }
+    .form-grupo label {
+      display: block; font-size: .75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: .4rem;
+    }
+    .form-grupo input, .form-grupo textarea, .form-grupo select {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: .7rem 1rem; color: var(--text);
+      font-family: var(--font-body); font-size: .9rem; transition: border-color .2s;
+    }
+    .form-grupo input:focus,
+    .form-grupo textarea:focus,
+    .form-grupo select:focus { outline: none; border-color: var(--accent); }
+    .form-grupo textarea { resize: vertical; min-height: 80px; }
+    .form-grupo select option { background: var(--surface2); }
+
+    .btn-salvar {
+      background: var(--accent); color: #000; font-family: var(--font-display);
+      font-weight: 700; font-size: .85rem; padding: .7rem 1.5rem;
+      border: none; border-radius: 8px; cursor: pointer; transition: background .2s;
+    }
+    .btn-salvar:hover { background: #00ffc0; }
+    .btn-salvar:disabled { opacity: .5; cursor: not-allowed; }
+
+    .feedback {
+      font-size: .82rem; margin-top: .75rem; min-height: 1.2rem;
+    }
+    .feedback.ok { color: var(--accent); }
+    .feedback.erro { color: var(--danger); }
+
+    /* ── Lista de projetos ── */
+    .projeto-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: .75rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .projeto-item-info { flex: 1; }
+    .projeto-item-nome {
+      font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+    }
+    .projeto-item-status { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+    .projeto-item-acoes { display: flex; gap: .5rem; flex-shrink: 0; }
+    .btn-editar, .btn-remover {
+      background: transparent; font-size: .78rem; padding: .4rem .8rem;
+      border-radius: 6px; cursor: pointer; font-family: var(--font-body);
+      transition: all .2s;
+    }
+    .btn-editar { border: 1px solid var(--border); color: var(--text); }
+    .btn-editar:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-remover { border: 1px solid var(--border); color: var(--muted); }
+    .btn-remover:hover { border-color: var(--danger); color: var(--danger); }
+
+    .btn-novo {
+      background: transparent; border: 1px dashed var(--border); color: var(--muted);
+      width: 100%; padding: .8rem; border-radius: 10px; cursor: pointer;
+      font-family: var(--font-body); font-size: .85rem; margin-bottom: 1.5rem;
+      transition: all .2s;
+    }
+    .btn-novo:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Form de projeto (inline) ── */
+    .form-projeto {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem; display: none;
+    }
+    .form-projeto.aberto { display: block; }
+    .form-projeto-titulo {
+      font-family: var(--font-display); font-weight: 700; font-size: .9rem;
+      margin-bottom: 1rem; color: var(--accent);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-acoes { display: flex; gap: .75rem; margin-top: 1rem; }
+    .btn-cancelar {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      font-family: var(--font-body); font-size: .85rem; padding: .7rem 1.25rem;
+      border-radius: 8px; cursor: pointer; transition: all .2s;
+    }
+    .btn-cancelar:hover { border-color: var(--muted); color: var(--text); }
+
+    .secao-titulo {
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .divisor { height: 1px; background: var(--border); margin: 2rem 0; }
+  </style>
+</head>
+<body>
+
+  <!-- TELA DE LOGIN -->
+  <div id="tela-login">
+    <div class="login-card">
+      <h1>Lucas <em>Admin</em></h1>
+      <p>Painel de edição do portfólio</p>
+      <div class="campo">
+        <label>E-mail</label>
+        <input type="email" id="input-email" placeholder="lukasantonyo@gmail.com">
+      </div>
+      <div class="campo">
+        <label>Senha</label>
+        <input type="password" id="input-senha" placeholder="••••••••">
+      </div>
+      <button class="btn-login" id="btn-login">Entrar</button>
+      <p class="erro-login" id="erro-login"></p>
+    </div>
+  </div>
+
+  <!-- PAINEL ADMIN -->
+  <div id="tela-admin">
+    <div class="admin-header">
+      <h2>Portfólio <em>Admin</em></h2>
+      <button class="btn-sair" id="btn-sair">Sair</button>
+    </div>
+
+    <div class="admin-body">
+
+      <!-- ABAS -->
+      <div class="abas">
+        <button class="aba ativa" data-aba="projetos">Projetos</button>
+        <button class="aba" data-aba="perfil">Perfil</button>
+        <button class="aba" data-aba="stack">Stack</button>
+      </div>
+
+      <!-- ABA: PROJETOS -->
+      <div class="aba-conteudo ativa" id="aba-projetos">
+
+        <button class="btn-novo" id="btn-novo-projeto">+ Adicionar projeto</button>
+
+        <!-- Formulário inline (oculto por padrão) -->
+        <div class="form-projeto" id="form-projeto">
+          <div class="form-projeto-titulo" id="form-projeto-titulo">Novo projeto</div>
+          <div class="form-row">
+            <div class="form-grupo">
+              <label>Nome</label>
+              <input type="text" id="proj-nome" placeholder="Ex: PayFlow">
+            </div>
+            <div class="form-grupo">
+              <label>Status</label>
+              <select id="proj-status">
+                <option>Em produção</option>
+                <option>Cliente real</option>
+                <option>Em andamento</option>
+                <option>Finalizado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grupo">
+            <label>Descrição</label>
+            <textarea id="proj-desc" placeholder="O que esse projeto faz?"></textarea>
+          </div>
+          <div class="form-grupo">
+            <label>Tags (separadas por vírgula)</label>
+            <input type="text" id="proj-tags" placeholder="Ex: React, Node.js, PostgreSQL">
+          </div>
+          <div class="form-grupo">
+            <label>Link do repositório</label>
+            <input type="text" id="proj-link" placeholder="https://github.com/...">
+          </div>
+          <div class="form-acoes">
+            <button class="btn-salvar" id="btn-salvar-projeto">Salvar projeto</button>
+            <button class="btn-cancelar" id="btn-cancelar-projeto">Cancelar</button>
+          </div>
+          <p class="feedback" id="feedback-projeto"></p>
+        </div>
+
+        <!-- Lista de projetos -->
+        <div id="lista-projetos"></div>
+
+      </div>
+
+      <!-- ABA: PERFIL -->
+      <div class="aba-conteudo" id="aba-perfil">
+        <div class="form-grupo">
+          <label>Nome exibido</label>
+          <input type="text" id="perfil-nome" placeholder="Lucas Silva">
+        </div>
+        <div class="form-grupo">
+          <label>Cargo</label>
+          <input type="text" id="perfil-cargo" placeholder="Full Stack Developer">
+        </div>
+        <div class="form-grupo">
+          <label>Bio</label>
+          <textarea id="perfil-bio" placeholder="Frase curta de apresentação..."></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>URL da foto de perfil</label>
+          <input type="text" id="perfil-foto" placeholder="https://...">
+        </div>
+        <div class="form-grupo">
+          <label>URL da imagem de fundo do hero</label>
+          <input type="text" id="perfil-bg" placeholder="https://...">
+        </div>
+        <div class="form-grupo">
+          <label>LinkedIn</label>
+          <input type="text" id="perfil-linkedin" placeholder="https://linkedin.com/in/...">
+        </div>
+        <div class="form-grupo">
+          <label>GitHub</label>
+          <input type="text" id="perfil-github" placeholder="https://github.com/...">
+        </div>
+        <div class="form-grupo">
+          <label>E-mail de contato</label>
+          <input type="text" id="perfil-email" placeholder="lukasantonyo@gmail.com">
+        </div>
+        <button class="btn-salvar" id="btn-salvar-perfil">Salvar perfil</button>
+        <p class="feedback" id="feedback-perfil"></p>
+      </div>
+
+      <!-- ABA: STACK -->
+      <div class="aba-conteudo" id="aba-stack">
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;">
+          Liste as tecnologias separadas por vírgula em cada categoria.
+        </p>
+        <div class="form-grupo">
+          <label>Front-End</label>
+          <input type="text" id="stack-frontend" placeholder="React, Angular 21, TypeScript, ...">
+        </div>
+        <div class="form-grupo">
+          <label>Back-End</label>
+          <input type="text" id="stack-backend" placeholder="Node.js, C# .NET 10, Express, ...">
+        </div>
+        <div class="form-grupo">
+          <label>Infra & Dados</label>
+          <input type="text" id="stack-infra" placeholder="PostgreSQL, MongoDB, Docker, ...">
+        </div>
+        <div class="form-grupo">
+          <label>IA & Automação</label>
+          <input type="text" id="stack-ia" placeholder="OpenAI API, Prompt Engineering, ...">
+        </div>
+        <button class="btn-salvar" id="btn-salvar-stack">Salvar stack</button>
+        <p class="feedback" id="feedback-stack"></p>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
