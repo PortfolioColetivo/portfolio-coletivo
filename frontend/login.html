@@ -11,13 +11,17 @@
     <h2>Acessar seu Portfólio</h2>
     <form>
       <!-- FIX: autocomplete ajuda gerenciadores de senha -->
+      <label for="email">Email</label>
       <input type="email" id="email" placeholder="Email" autocomplete="email">
       <!-- FIX: Enter no campo senha agora dispara o login -->
+      <label for="senha">Senha</label>
       <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
       <button type="button" id="btn-login">Entrar</button>
       <button type="button" id="btn-cadastro">Criar Conta</button>
+      <p>Esqueceu a senha? <span id="btn-reset-senha">Redefinir</span></p>
     </form>
     <p id="auth-erro"></p>
+    <p id="auth-sucesso"></p>
   </main>
   <script type="module" src="../backend/auth.js"></script>
 </body>

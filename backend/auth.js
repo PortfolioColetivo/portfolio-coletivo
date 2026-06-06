@@ -4,20 +4,22 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebas
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-const emailInput  = document.getElementById('email');
-const senhaInput  = document.getElementById('senha');
-const btnLogin    = document.getElementById('btn-login');
-const btnCadastro = document.getElementById('btn-cadastro');
-const authErro    = document.getElementById('auth-erro');
+const emailInput    = document.getElementById('email');
+const senhaInput    = document.getElementById('senha');
+const btnLogin      = document.getElementById('btn-login');
+const btnCadastro   = document.getElementById('btn-cadastro');
+const btnResetSenha = document.getElementById('btn-reset-senha');
+const authErro      = document.getElementById('auth-erro');
+const authSucesso   = document.getElementById('auth-sucesso');
 
-// FIX: botões ficam desabilitados até o Firebase terminar de inicializar,
-// evitando chamadas a auth/db enquanto ainda são undefined
-btnLogin.disabled    = true;
-btnCadastro.disabled = true;
+btnLogin.disabled      = true;
+btnCadastro.disabled   = true;
+btnResetSenha.disabled = true;
 
 let auth, db;
 
@@ -31,9 +33,9 @@ let auth, db;
     auth = getAuth(app);
     db   = getFirestore(app);
 
-    // Só habilita os botões quando tudo estiver pronto
-    btnLogin.disabled    = false;
-    btnCadastro.disabled = false;
+    btnLogin.disabled      = false;
+    btnCadastro.disabled   = false;
+    btnResetSenha.disabled = false;
   } catch (err) {
     authErro.textContent = 'Erro ao carregar configurações. Recarregue a página.';
     console.error('Falha na inicialização do Firebase:', err);
@@ -72,6 +74,23 @@ btnCadastro.addEventListener('click', async () => {
 // LOGIN
 btnLogin.addEventListener('click', fazerLogin);
 
+// REDEFINIR SENHA
+btnResetSenha.addEventListener('click', async () => {
+  authErro.textContent    = '';
+  authSucesso.textContent = '';
+  const email = emailInput.value.trim();
+  if (!email) {
+    authErro.textContent = 'Digite seu email para redefinir a senha.';
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    authSucesso.textContent = 'Email de redefinição enviado! Verifique sua caixa de entrada.';
+  } catch (error) {
+    authErro.textContent = traduzErro(error.code);
+  }
+});
+
 // FIX: Enter no campo senha também dispara o login
 senhaInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') fazerLogin();
@@ -91,5 +110,6 @@ function traduzErro(codigo) {
   if (codigo === 'auth/email-already-in-use') return 'Esse email já está em uso.';
   if (codigo === 'auth/weak-password')         return 'Senha fraca. Use no mínimo 6 caracteres.';
   if (codigo === 'auth/invalid-credential')    return 'Email ou senha inválidos.';
+  if (codigo === 'auth/user-not-found')        return 'Nenhuma conta encontrada com esse email.';
   return 'Ocorreu um erro. Tente novamente.';
 }
