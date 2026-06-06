@@ -1,66 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lucas Silva — Dev Full Stack</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-  <header class="perfil-header">
-    <div class="perfil-avatar">LS</div>
-    <div class="perfil-info">
-      <h1>Lucas Silva</h1>
-      <p class="perfil-cargo">Desenvolvedor Full Stack</p>
-      <p class="perfil-bio">
-        Em transição de carreira para desenvolvimento Full Stack.
-        Foco em React, Node.js e integração com IA.
-      </p>
+  <div class="page">
+
+    <header class="hero">
+      <div class="hero-left">
+        <div class="hero-tag"><span class="dot"></span> Disponível para oportunidades</div>
+        <h1 class="hero-name">Lucas<br><em>Silva</em></h1>
+        <p class="hero-title">Full Stack Developer</p>
+        <p class="hero-bio">Dev em transição de carreira com projetos reais em produção. Foco em Node.js, React, C# .NET e integração com IA. Cambuquira, MG — Brasil.</p>
+        <div class="hero-links">
+          <a class="btn btn-primary" href="https://linkedin.com/in/olucas-silvaa" target="_blank">LinkedIn ↗</a>
+          <a class="btn btn-ghost" href="https://github.com/LuuckySilva" target="_blank">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="hero-avatar" id="avatar">LS</div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Projetos publicados</div></div>
+      <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Tecnologias</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Projetos reais</div></div>
     </div>
-  </header>
 
-  <main class="container">
-
-    <section class="links-section">
-      <a rel="noopener" href="https://linkedin.com/in/olucas-silvaa" target="_blank" class="btn btn-linkedin">LinkedIn</a>
-      <a rel="noopener" href="https://github.com/LuuckySilva" target="_blank" class="btn btn-github">GitHub</a>
-    </section>
-
-    <section class="projetos-section">
-      <h2>Projetos</h2>
-
-      <div class="projetos-grid">
-
-        <article class="projeto-card">
-          <h3>Mario Bros Plumbing</h3>
-          <p>App full stack temático com Node.js, Express e deploy no Render + Vercel.</p>
-          <a rel="noopener" href="https://github.com/LuuckySilva/Mario-Bross" target="_blank">Ver repositório →</a>
-        </article>
-
-        <article class="projeto-card">
-          <h3>NovaCRM AI</h3>
-          <p>Módulo de análise de leads com IA integrada via OpenAI API. React + Node.js.</p>
-          <a rel="noopener" href="https://github.com/LuuckySilva" target="_blank">Ver repositório →</a>
-        </article>
-
-        <article class="projeto-card em-construcao">
-          <h3>Portfólio Coletivo</h3>
-          <p>Projeto em grupo com Firebase Auth, Firestore e Storage. Em andamento.</p>
-          <a rel="noopener" href="https://github.com/LuuckySilva/Portfolio-Coletivo" target="_blank">Ver repositório →</a>
-        </article>
-
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Stack</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">Front-End</div>
+        <div class="stack-grid">
+          <span class="pill highlight">React</span>
+          <span class="pill highlight">Angular 21</span>
+          <span class="pill highlight">TypeScript</span>
+          <span class="pill">JavaScript</span>
+          <span class="pill">HTML5</span>
+          <span class="pill">CSS3 / SCSS</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">Back-End</div>
+        <div class="stack-grid">
+          <span class="pill highlight">Node.js</span>
+          <span class="pill highlight">C# .NET 10</span>
+          <span class="pill">Express</span>
+          <span class="pill">JWT</span>
+          <span class="pill">Stripe</span>
+          <span class="pill">REST APIs</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">Infra & Dados</div>
+        <div class="stack-grid">
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">MongoDB</span>
+          <span class="pill">Docker</span>
+          <span class="pill">GitHub Actions</span>
+          <span class="pill">Railway</span>
+          <span class="pill">Vercel</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div class="stack-group-label">IA & Automação</div>
+        <div class="stack-grid">
+          <span class="pill highlight">OpenAI API</span>
+          <span class="pill">Prompt Engineering</span>
+          <span class="pill">LLM Integration</span>
+        </div>
       </div>
     </section>
 
-  </main>
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Projetos</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-list" id="projects-list">
+        <!-- projetos carregados pelo app.js -->
+      </div>
+    </section>
 
-  <footer>
-    <p>Lucas Silva · <a href="https://github.com/LuuckySilva">GitHub</a></p>
-  </footer>
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Sobre</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="code-block">
+        <span class="k">const</span> lucas = {<br>
+        &nbsp;&nbsp;role: <span class="s">"Full Stack Developer"</span>,<br>
+        &nbsp;&nbsp;stack: [<span class="s">"React"</span>, <span class="s">"Node.js"</span>, <span class="s">"C# .NET"</span>, <span class="s">"Angular"</span>],<br>
+        &nbsp;&nbsp;diferenciais: [<span class="s">"IA em projetos reais"</span>, <span class="s">"cliente real"</span>, <span class="s">"deploy em produção"</span>],<br>
+        &nbsp;&nbsp;aberto_para: <span class="s">"oportunidades CLT ou PJ"</span>,<br>
+        &nbsp;&nbsp;localidade: <span class="s">"Minas Gerais, BR — remoto"</span>,<br>
+        }
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-label">Contato</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-card" href="https://linkedin.com/in/olucas-silvaa" target="_blank">
+          <div class="contact-icon"><i class="ti ti-brand-linkedin"></i></div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value">olucas-silvaa</div>
+          </div>
+        </a>
+        <a class="contact-card" href="https://github.com/LuuckySilva" target="_blank">
+          <div class="contact-icon"><i class="ti ti-brand-github"></i></div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">LuuckySilva</div>
+          </div>
+        </a>
+        <a class="contact-card" href="mailto:lukasantonyo@gmail.com">
+          <div class="contact-icon"><i class="ti ti-mail"></i></div>
+          <div>
+            <div class="contact-label">E-mail</div>
+            <div class="contact-value">lukasantonyo@gmail.com</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Feito com <strong>HTML + CSS puro</strong> · Lucas Silva · 2026</p>
+    </footer>
+
+  </div>
+
+  <script type="module" src="app.js"></script>
 
 </body>
-
 </html>
