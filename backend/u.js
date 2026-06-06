@@ -96,16 +96,15 @@ import {
       // 404 aqui é esperado quando a pasta não existe; browser loga mesmo com try/catch
       const check = await fetch(localPath, { method: 'HEAD' });
       if (check.ok) {
-        document.getElementById('profile-card').style.display = 'none';
+        const profileCard = document.getElementById('profile-card');
+        profileCard.style.display = 'none';
 
         const iframe = document.createElement('iframe');
         iframe.src           = localPath;
         iframe.title         = `Portfólio de ${data.nome || slugAtivo}`;
-        iframe.width         = '100%';
-        iframe.height        = '100vh';
-        iframe.style.cssText = 'border:none;display:block';
+        iframe.style.cssText = 'width:100%;height:100vh;border:none;display:block';
         iframe.loading       = 'lazy';
-        projectWrapper.appendChild(iframe);
+        profileCard.parentElement.appendChild(iframe);
         return;
       }
     } catch (_) {
