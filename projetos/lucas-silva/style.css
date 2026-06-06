@@ -281,6 +281,11 @@ a:hover {
   color: var(--accent);
   background: rgba(0, 229, 160, 0.06);
 }
+#stack-paragraph {
+  font-size: .85rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
 
 /* ── Projetos ───────────────────────────────────────── */
 .projects-list {
