@@ -96,19 +96,17 @@ import {
       // 404 aqui é esperado quando a pasta não existe; browser loga mesmo com try/catch
       const check = await fetch(localPath, { method: 'HEAD' });
       if (check.ok) {
-        const section = document.createElement('div');
-        section.style.cssText = 'margin-top:2rem';
+        document.getElementById('profile-card').style.display = 'none';
 
         const iframe = document.createElement('iframe');
-        iframe.src             = localPath;
-        iframe.title           = `Portfólio de ${data.nome || slugAtivo}`;
-        iframe.width           = '100%';
-        iframe.height          = '800';
-        iframe.style.cssText   = 'border:1px solid #ddd;border-radius:6px;display:block';
-        iframe.loading         = 'lazy';
-        section.appendChild(iframe);
-        projectWrapper.appendChild(section);
-        return; // pasta local encontrada — encerra aqui
+        iframe.src           = localPath;
+        iframe.title         = `Portfólio de ${data.nome || slugAtivo}`;
+        iframe.width         = '100%';
+        iframe.height        = '100vh';
+        iframe.style.cssText = 'border:none;display:block';
+        iframe.loading       = 'lazy';
+        projectWrapper.appendChild(iframe);
+        return;
       }
     } catch (_) {
       // pasta não acessível (CORS, 404, etc.) — cai para as opções abaixo
