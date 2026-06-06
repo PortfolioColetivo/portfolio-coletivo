@@ -1,5 +1,7 @@
 /* ── Fontes e reset ─────────────────────────────────── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -26,6 +28,14 @@ body {
   min-height: 100vh;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+}
+
 a {
   color: var(--accent);
   text-decoration: none;
@@ -37,7 +47,7 @@ a:hover {
 
 /* ── Layout ─────────────────────────────────────────── */
 .page {
-  max-width: 720px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
 }
@@ -76,8 +86,15 @@ a:hover {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .3; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .3;
+  }
 }
 
 .hero-name {
@@ -281,6 +298,7 @@ a:hover {
   color: var(--accent);
   background: rgba(0, 229, 160, 0.06);
 }
+
 #stack-paragraph {
   font-size: .85rem;
   color: var(--muted);
@@ -395,8 +413,13 @@ a:hover {
   line-height: 1.8;
 }
 
-.code-block .k { color: var(--accent); }
-.code-block .s { color: #f0aaff; }
+.code-block .k {
+  color: var(--accent);
+}
+
+.code-block .s {
+  color: #f0aaff;
+}
 
 /* ── Contato ────────────────────────────────────────── */
 .contact-grid {
